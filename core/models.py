@@ -73,7 +73,7 @@ class SpisokVosproizvedenia(models.Model):
 
 
 
-    def save(self, **kwargs):
-        # отправлять команду на обновление и время для обновления
-        # обновить локальный поставить time stamp + id
-        pass
+    # def save(self, **kwargs):
+    #     # отправлять команду на обновление и время для обновления
+    #     # обновить локальный поставить time stamp + id
+    #     pass

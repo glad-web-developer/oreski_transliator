@@ -71,7 +71,7 @@ class SpisokVosproizvedeniaAdmin(ImportExportModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         result = super(SpisokVosproizvedeniaAdmin, self).changelist_view(request, extra_context)
-        result.context_data['den_seichas'] = datetime.datetime.today().isoweekday()
+        # result.context_data['den_seichas'] = datetime.datetime.today().isoweekday()
         return result
 
     list_display = ('id', 'data', 'vremia_s',  'vremia_po',  'nabor_media', 'zvuk', 'local_id_hash')

@@ -4,7 +4,7 @@
     <p>Сейчас играет: {{den_seichas}}</p>
     <ul class="object-tools">
         {% block object-tools-items %}
-            <li><a href='#' class="import_link">Скопировать из расписания на неделю</a></li>
+            <li><a href='{% url 'zapolnit_iz_raspisania_na_nedelu' %}' class="import_link">Скопировать из расписания на неделю</a></li>
             <li><a href='#' class="import_link">Остановить трансялцию</a></li>
 {#            {% include "admin/import_export/change_list_import_item.html" %}#}
 {#            {% include "admin/import_export/change_list_export_item.html" %}#}

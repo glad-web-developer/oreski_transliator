@@ -17,11 +17,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from core.views import render_index
+from core.views import render_index, zapolnit_iz_raspisania_na_nedelu
 from oreski_transliator import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('zapolnit_iz_raspisania_na_nedelu/', zapolnit_iz_raspisania_na_nedelu, name='zapolnit_iz_raspisania_na_nedelu'),
     path('', render_index),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
