@@ -1,0 +1,15 @@
+{% extends "admin/import_export/change_list.html" %}
+
+{% block object-tools %}
+    <p>Сейчас играет: {{den_seichas}}</p>
+    <ul class="object-tools">
+        {% block object-tools-items %}
+            <li><a href='#' class="import_link">Скопировать из расписания на неделю</a></li>
+            <li><a href='#' class="import_link">Остановить трансялцию</a></li>
+{#            {% include "admin/import_export/change_list_import_item.html" %}#}
+{#            {% include "admin/import_export/change_list_export_item.html" %}#}
+            {{ block.super }}
+        {% endblock %}
+    </ul>
+{% endblock %}
+

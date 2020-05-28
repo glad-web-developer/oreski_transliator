@@ -1,0 +1,11 @@
+.ssilka_na_adminku {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    opacity: 0;
+}
+
+.ssilka_na_adminku:hover {
+    visibility: visible;
+     opacity: 1;
+}
