@@ -1,5 +1,7 @@
-from django.db import models
+from datetime import datetime
 
+from django.db import models
+import uuid
 
 class NaborMedia(models.Model):
     class Meta:
@@ -71,9 +73,15 @@ class SpisokVosproizvedenia(models.Model):
     zvuk = models.BooleanField('Звук', default=True)
     local_id_hash = models.CharField(editable=True, blank=True, null=True, max_length=250)
 
+    filtruemoe_dt_s = models.DateTimeField('Фильтрумое дата время с', editable=False)
+    filtruemoe_dt_po = models.DateTimeField('Фильтрумое дата время по', editable=False)
 
 
-    # def save(self, **kwargs):
-    #     # отправлять команду на обновление и время для обновления
-    #     # обновить локальный поставить time stamp + id
-    #     pass
+
+    def save(self, *args, **kwargs):
+        self.local_id_hash = uuid.uuid4().hex
+
+        self.filtruemoe_dt_s = datetime.combine(self.data, self.vremia_s)
+        self.filtruemoe_dt_po = datetime.combine(self.data, self.vremia_po)
+
+        super(SpisokVosproizvedenia, self).save(*args, **kwargs)

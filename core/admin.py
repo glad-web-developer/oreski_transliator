@@ -12,18 +12,17 @@ class MediaInline(admin.TabularInline):
     def get_extra(self, request, obj=None, **kwargs):
         extra = 1
         if obj:
-            return extra - obj.rn_media.count()
+            return len(obj.rn_media.all()) - (len(obj.rn_media.all())-1)
         return extra
 
 
-
 class NaborMediaAdmin(ImportExportModelAdmin):
-
     inlines = [
         MediaInline,
     ]
 
-    list_display = ('id', 'nazvanie', 'recomendovania_prodolzitelnost',  'skorost_perelistivanie_slaida', 'get_spisok_media')
+    list_display = (
+        'id', 'nazvanie', 'recomendovania_prodolzitelnost', 'skorost_perelistivanie_slaida', 'get_spisok_media')
     search_fields = ('nazvanie',)
     # list_filter = ('status_zapisi', 'podriadchik', 'vid_rabot')
     list_display_links = ('id',)
@@ -34,7 +33,7 @@ class NaborMediaAdmin(ImportExportModelAdmin):
         'skorost_perelistivanie_slaida',
     )
 
-    ordering = (['nazvanie',])
+    ordering = (['nazvanie', ])
     save_on_top = True
     save_as = True
 
@@ -43,11 +42,9 @@ admin.site.register(NaborMedia, NaborMediaAdmin)
 
 
 class RaspisaniePoDniamAdmin(ImportExportModelAdmin):
-
-
-    list_display = ('id', 'den_nedeli', 'vremia_s',  'vremia_po',  'nabor_media', 'zvuk')
+    list_display = ('id', 'den_nedeli', 'vremia_s', 'vremia_po', 'nabor_media', 'zvuk')
     # search_fields = ('nazvanie',)
-    list_filter = ('den_nedeli', 'nabor_media', )
+    list_filter = ('den_nedeli', 'nabor_media',)
     list_display_links = ('id',)
 
     list_editable = (
@@ -58,25 +55,60 @@ class RaspisaniePoDniamAdmin(ImportExportModelAdmin):
         'zvuk',
     )
 
-    ordering = ('den_nedeli','vremia_s')
+    ordering = ('den_nedeli', 'vremia_s')
     save_on_top = True
     save_as = True
 
 
 admin.site.register(RaspisaniePoDniam, RaspisaniePoDniamAdmin)
 
+
 @admin.register(SpisokVosproizvedenia)
 class SpisokVosproizvedeniaAdmin(ImportExportModelAdmin):
     change_list_template = "model_change_list.html"
 
+    def get_den_nedeli(self, obj):
+        den_nedeli = [
+            'Понедельник',
+            'Вторник',
+            'Среда',
+            'Четверг',
+            'Пятница',
+            'Суббота',
+            'Воскресенье',
+        ]
+        return den_nedeli[obj.data.isoweekday() - 1]
+
+    get_den_nedeli.__name__ = 'День недели'
+
     def changelist_view(self, request, extra_context=None):
         result = super(SpisokVosproizvedeniaAdmin, self).changelist_view(request, extra_context)
-        # result.context_data['den_seichas'] = datetime.datetime.today().isoweekday()
+        try:
+            seichas = datetime.datetime.now()
+            igraet_seichas = SpisokVosproizvedenia.objects.filter(filtruemoe_dt_s__lte=seichas)
+            igraet_seichas = igraet_seichas.filter(filtruemoe_dt_po__gte=seichas)
+            igraet_seichas = igraet_seichas[0]
+            if igraet_seichas.local_id_hash != '-':
+                result.context_data['igraet_seichas'] = igraet_seichas.id
+
+        except Exception:
+            pass
         return result
 
-    list_display = ('id', 'data', 'vremia_s',  'vremia_po',  'nabor_media', 'zvuk', 'local_id_hash')
+    list_display = (
+        'id',
+        'data',
+        'get_den_nedeli',
+        'vremia_s',
+        'vremia_po',
+        'nabor_media',
+        'zvuk',
+        'local_id_hash',
+        'filtruemoe_dt_s',
+        'filtruemoe_dt_po',
+    )
     search_fields = ('data',)
-    list_filter = ('data', 'nabor_media', )
+    list_filter = ('data', 'nabor_media',)
     list_display_links = ('id',)
 
     list_editable = (

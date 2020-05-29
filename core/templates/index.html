@@ -8,15 +8,79 @@
     <link rel="stylesheet" href="{% static 'core/core.css' %}">
     <script src="{% static 'core/jq.js' %}"></script>
     <script src="{% static 'core/bootstrap-4.5.0-dist/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'core/core.js' %}"></script>
 
+
+    <link href="https://vjs.zencdn.net/7.8.2/video-js.css" rel="stylesheet"/>
+
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 </head>
 <body>
 
-<div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+<div class="embed-responsive embed-responsive-16by9" style="height: 400px">
+    <img src="{% static 'core/logo.jpg' %}" id="zastavka" class="embed-responsive-item">
+    <video
+            id="video_player_na_saite"
+            class="video-js embed-responsive-item"
+            controls
+            preload="auto"
+            poster=""
+            data-setup="{}"
+    >
+        <source src="{{ igraet_seichas.nabor_media.rn_media.first.media.url }}" type="video/mp4"/>
+        <source src="{{ igraet_seichas.nabor_media.rn_media.first.media.url }}" type="video/webm"/>
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank"
+            >supports HTML5 video</a
+            >
+        </p>
+    </video>
 </div>
 
+
 <a class="btn btn-success text-light  ssilka_na_adminku" href="/admin" target="_blank">Админка</a>
+
+<script src="https://vjs.zencdn.net/7.8.2/video.js"></script>
+<script>
+
+
+    async function proverka_hash_igraet_seichas(hash_proverki, myPlayer) {
+        let request = await fetch({% url 'get_hash_igraet_seichas' %});
+        let hash_igraet_seichas = await request.text();
+        if (hash_igraet_seichas === '-') {
+            myPlayer.pause();
+            $('#zastavka').show();
+            $('#video_player_na_saite').hide();
+        } else if (hash_proverki !== hash_igraet_seichas) {
+            window.location.reload();
+        } else {
+            $('#zastavka').hide();
+            $('#video_player_na_saite').show()
+            myPlayer.play();
+
+            {#console.log('ОК', hash_proverki, hash_igraet_seichas)#}
+        }
+    }
+
+    $(function () {
+        $('#zastavka').show();
+        $('#video_player_na_saite').hide();
+
+
+        var myPlayer = videojs('video_player_na_saite');
+        setInterval(() => proverka_hash_igraet_seichas('{{ igraet_seichas.local_id_hash }}', myPlayer), 1000);
+
+
+// myPlayer.src({type: 'video/mp4', src: 'http://www.example.com/path/to/video.mp4'});
+//     myPlayer.requestFullscreen();
+        myPlayer.ready(function () {
+            {#myPlayer.play();#}
+        });
+
+    })
+
+</script>
 </body>
 </html>

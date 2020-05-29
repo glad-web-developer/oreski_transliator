@@ -17,12 +17,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from core.views import render_index, zapolnit_iz_raspisania_na_nedelu
+from core.views import render_index, zapolnit_iz_raspisania_na_nedelu, get_hash_igraet_seichas, \
+    ostanovit_vosproizvedenie, prodolzit_vosproizvedenie
 from oreski_transliator import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('zapolnit_iz_raspisania_na_nedelu/', zapolnit_iz_raspisania_na_nedelu, name='zapolnit_iz_raspisania_na_nedelu'),
+    path('get_hash_igraet_seichas/', get_hash_igraet_seichas, name='get_hash_igraet_seichas'),
+    path('ostanovit_vosproizvedenie/', ostanovit_vosproizvedenie, name='ostanovit_vosproizvedenie'),
+    path('prodolzit_vosproizvedenie/', prodolzit_vosproizvedenie, name='prodolzit_vosproizvedenie'),
     path('', render_index),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
