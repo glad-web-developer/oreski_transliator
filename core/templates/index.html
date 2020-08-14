@@ -18,9 +18,9 @@
 <a class="btn btn-success text-light  ssilka_na_adminku" href="/admin" target="_blank">Админка</a>
 
 
-<div id="player">
+    <div id="player" class="">
 
-</div>
+    </div>
 
 <script>
 
@@ -33,7 +33,7 @@
             window.location.reload();
         } else {
 
-           player.api("play");
+            player.api("play");
 
             {#console.log('ОК', hash_proverki, hash_igraet_seichas)#}
         }
@@ -44,7 +44,7 @@
         file: [
             {% for i in  igraet_seichas.nabor_media.rn_media.all %}
                 {
-                    'title': '{{ i.media.id }}',
+                    'title': '{{ i.media.name }}',
                     'file': '{{ i.media.url }}',
                     'poster': '{% static "core/logo.jpg" %}'
                 },

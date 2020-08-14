@@ -37,6 +37,9 @@ class Media(models.Model):
     ), default='Аудио')
     media = models.FileField(verbose_name='Файл')
 
+    def __str__(self):
+        return  self.media.name
+
 class RaspisaniePoDniam(models.Model):
 
     class Meta:
