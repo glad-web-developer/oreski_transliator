@@ -22,16 +22,12 @@ class NaborMediaAdmin(ImportExportModelAdmin):
     ]
 
     list_display = (
-        'id', 'nazvanie', 'recomendovania_prodolzitelnost', 'skorost_perelistivanie_slaida', 'get_spisok_media')
+        'id', 'nazvanie',  'get_spisok_media')
     search_fields = ('nazvanie',)
     # list_filter = ('status_zapisi', 'podriadchik', 'vid_rabot')
-    list_display_links = ('id',)
+    list_display_links = ('id','nazvanie',  'get_spisok_media')
 
-    list_editable = (
-        'nazvanie',
-        'recomendovania_prodolzitelnost',
-        'skorost_perelistivanie_slaida',
-    )
+
 
     ordering = (['nazvanie', ])
     save_on_top = True
@@ -42,7 +38,7 @@ admin.site.register(NaborMedia, NaborMediaAdmin)
 
 
 class RaspisaniePoDniamAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'den_nedeli', 'vremia_s', 'vremia_po', 'nabor_media', 'zvuk')
+    list_display = ('id', 'den_nedeli', 'vremia_s', 'vremia_po', 'nabor_media', )
     # search_fields = ('nazvanie',)
     list_filter = ('den_nedeli', 'nabor_media',)
     list_display_links = ('id',)
@@ -52,7 +48,7 @@ class RaspisaniePoDniamAdmin(ImportExportModelAdmin):
         'vremia_s',
         'vremia_po',
         'nabor_media',
-        'zvuk',
+
     )
 
     ordering = ('den_nedeli', 'vremia_s')
@@ -102,7 +98,6 @@ class SpisokVosproizvedeniaAdmin(ImportExportModelAdmin):
         'vremia_s',
         'vremia_po',
         'nabor_media',
-        'zvuk',
         'local_id_hash',
         'filtruemoe_dt_s',
         'filtruemoe_dt_po',
@@ -116,7 +111,6 @@ class SpisokVosproizvedeniaAdmin(ImportExportModelAdmin):
         'vremia_s',
         'vremia_po',
         'nabor_media',
-        'zvuk',
     )
 
     ordering = ('data', 'vremia_s')

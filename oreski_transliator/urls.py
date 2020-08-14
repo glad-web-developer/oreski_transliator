@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path
 
 from core.views import render_index, zapolnit_iz_raspisania_na_nedelu, get_hash_igraet_seichas, \
-    ostanovit_vosproizvedenie, prodolzit_vosproizvedenie
+    ostanovit_vosproizvedenie, prodolzit_vosproizvedenie, ochistit_spisok_vosproizvedenia, \
+    zapolnit_iz_raspisania_na_30dnei, zapolnit_iz_raspisania_na_365dnei
 from oreski_transliator import settings
 
 urlpatterns = [
@@ -27,6 +28,9 @@ urlpatterns = [
     path('get_hash_igraet_seichas/', get_hash_igraet_seichas, name='get_hash_igraet_seichas'),
     path('ostanovit_vosproizvedenie/', ostanovit_vosproizvedenie, name='ostanovit_vosproizvedenie'),
     path('prodolzit_vosproizvedenie/', prodolzit_vosproizvedenie, name='prodolzit_vosproizvedenie'),
+    path('ochistit_spisok_vosproizvedenia/', ochistit_spisok_vosproizvedenia, name='ochistit_spisok_vosproizvedenia'),
+    path('zapolnit_iz_raspisania_na_30dnei/', zapolnit_iz_raspisania_na_30dnei, name='zapolnit_iz_raspisania_na_30dnei'),
+    path('zapolnit_iz_raspisania_na_365dnei/', zapolnit_iz_raspisania_na_365dnei, name='zapolnit_iz_raspisania_na_365dnei'),
     path('', render_index),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

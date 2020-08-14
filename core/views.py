@@ -31,7 +31,10 @@ def render_index(request):
     seichas = datetime.datetime.now()
     igraet_seichas = SpisokVosproizvedenia.objects.filter(filtruemoe_dt_s__lte=seichas)
     igraet_seichas = igraet_seichas.filter(filtruemoe_dt_po__gte=seichas)
-    igraet_seichas = igraet_seichas[0]
+    try:
+        igraet_seichas = igraet_seichas[0]
+    except IndexError :
+        igraet_seichas:''
 
     return render(request, 'index.html', {
         'igraet_seichas':igraet_seichas
@@ -55,10 +58,66 @@ def zapolnit_iz_raspisania_na_nedelu(request):
                 vremia_s = i.vremia_s,
                 vremia_po = i.vremia_po,
                 nabor_media = i.nabor_media,
-                zvuk = i.zvuk,
+
             ).save()
 
         data_dlia_zapisi = data_dlia_zapisi + datetime.timedelta(days=1)
 
     return redirect('/admin/core/spisokvosproizvedenia/')
 
+
+def ochistit_spisok_vosproizvedenia(request):
+    spisok_vozproizvedenia = SpisokVosproizvedenia.objects.all()
+    spisok_vozproizvedenia.delete()
+    return redirect('/admin/core/spisokvosproizvedenia/')
+
+def zapolnit_iz_raspisania_na_30dnei(request):
+
+    spisok_vozproizvedenia = SpisokVosproizvedenia.objects.all()
+    spisok_vozproizvedenia.delete()
+
+    data_dlia_zapisi = datetime.datetime.today()
+
+    raspisania_po_dniam = RaspisaniePoDniam.objects.all()
+
+    for i in range(1, 31):
+        stroki_raspisania_za_den = raspisania_po_dniam.filter(den_nedeli=data_dlia_zapisi.isoweekday())
+
+        for i in stroki_raspisania_za_den:
+            SpisokVosproizvedenia(
+                data=data_dlia_zapisi,
+                vremia_s=i.vremia_s,
+                vremia_po=i.vremia_po,
+                nabor_media=i.nabor_media,
+
+            ).save()
+
+        data_dlia_zapisi = data_dlia_zapisi + datetime.timedelta(days=1)
+
+    return redirect('/admin/core/spisokvosproizvedenia/')
+
+
+def zapolnit_iz_raspisania_na_365dnei(request):
+
+    spisok_vozproizvedenia = SpisokVosproizvedenia.objects.all()
+    spisok_vozproizvedenia.delete()
+
+    data_dlia_zapisi = datetime.datetime.today()
+
+    raspisania_po_dniam = RaspisaniePoDniam.objects.all()
+
+    for i in range(1, 366):
+        stroki_raspisania_za_den = raspisania_po_dniam.filter(den_nedeli=data_dlia_zapisi.isoweekday())
+
+        for i in stroki_raspisania_za_den:
+            SpisokVosproizvedenia(
+                data=data_dlia_zapisi,
+                vremia_s=i.vremia_s,
+                vremia_po=i.vremia_po,
+                nabor_media=i.nabor_media,
+
+            ).save()
+
+        data_dlia_zapisi = data_dlia_zapisi + datetime.timedelta(days=1)
+
+    return redirect('/admin/core/spisokvosproizvedenia/')

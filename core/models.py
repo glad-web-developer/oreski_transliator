@@ -9,8 +9,8 @@ class NaborMedia(models.Model):
         verbose_name_plural = 'Набор медиа'
 
     nazvanie = models.CharField('Название', max_length=250)
-    recomendovania_prodolzitelnost = models.CharField('Рекомендованная продолжительность набора', null=True, blank=True, max_length=250)
-    skorost_perelistivanie_slaida = models.PositiveIntegerField('Скорость перелистывание слайда в секундах', default=7)
+    # recomendovania_prodolzitelnost = models.CharField('Рекомендованная продолжительность набора', null=True, blank=True, max_length=250)
+    # skorost_perelistivanie_slaida = models.PositiveIntegerField('Скорость перелистывание слайда в секундах', default=7)
 
 
     def get_spisok_media(self):
@@ -20,7 +20,7 @@ class NaborMedia(models.Model):
         return ', '.join(tmp)
 
     def __str__(self):
-        return f'{self.nazvanie} ({self.recomendovania_prodolzitelnost})'
+        return f'{self.nazvanie} '
 
 
 class Media(models.Model):
@@ -31,10 +31,10 @@ class Media(models.Model):
     nabor_media = models.ForeignKey(NaborMedia, verbose_name='Набор медиа', on_delete=models.CASCADE, related_name='rn_media')
 
     tip_media = models.CharField('Тип медиа', max_length=255, choices=(
-        ('Видео', 'Видео'),
+        # ('Видео', 'Видео'),
         ('Аудио', 'Аудио'),
-        ('Фото', 'Фото'),
-    ))
+        # ('Фото', 'Фото'),
+    ), default='Аудио')
     media = models.FileField(verbose_name='Файл')
 
 class RaspisaniePoDniam(models.Model):
@@ -55,7 +55,7 @@ class RaspisaniePoDniam(models.Model):
     vremia_s = models.TimeField('Время показа с ')
     vremia_po = models.TimeField('Время показа по ')
     nabor_media = models.ForeignKey(NaborMedia, verbose_name='Набор медиа', on_delete=models.CASCADE)
-    zvuk = models.BooleanField('Звук', default=True)
+    # zvuk = models.BooleanField('Звук', default=True)
 
     def __str__(self):
         return f'{self.den_nedeli} {self.vremia_s}-{self.vremia_po} {self.nabor_media}'
@@ -70,7 +70,7 @@ class SpisokVosproizvedenia(models.Model):
     vremia_s = models.TimeField('Время показа с ')
     vremia_po = models.TimeField('Время показа по ')
     nabor_media = models.ForeignKey(NaborMedia, verbose_name='Набор медиа', on_delete=models.CASCADE)
-    zvuk = models.BooleanField('Звук', default=True)
+    # zvuk = models.BooleanField('Звук', default=True)
     local_id_hash = models.CharField(editable=True, blank=True, null=True, max_length=250)
 
     filtruemoe_dt_s = models.DateTimeField('Фильтрумое дата время с', editable=False)

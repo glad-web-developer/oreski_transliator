@@ -4,11 +4,14 @@
     <p>Сейчас играет: {% if igraet_seichas %}<a href="/admin/core/spisokvosproizvedenia/{{igraet_seichas}}/change/">id {{igraet_seichas}}</a> {% else %}Ничего{% endif %}</p>
     <ul class="object-tools">
         {% block object-tools-items %}
-            <li><a href='{% url 'zapolnit_iz_raspisania_na_nedelu' %}' class="import_link">Скопировать из расписания на неделю</a></li>
+            <li><a href='{% url 'zapolnit_iz_raspisania_na_nedelu' %}' class="import_link">Составить список на неделю</a></li>
+            <li><a href='{% url 'zapolnit_iz_raspisania_na_30dnei' %}' class="import_link">Составить списокна 30 дней</a></li>
+            <li><a href='{% url 'zapolnit_iz_raspisania_na_365dnei' %}' class="import_link">Составить списокна 365 дней</a></li>
+            <li><a href='{% url 'ochistit_spisok_vosproizvedenia' %}' class="import_link">Очистить список</a></li>
 
 
             <li><a href='{% url 'ostanovit_vosproizvedenie' %}' class="import_link">Остановить трансялцию</a></li>
-            <li><a href='{% url 'prodolzit_vosproizvedenie' %}' class="import_link">Продолжить трансялцию</a></li>
+            <li><a href='{% url 'prodolzit_vosproizvedenie' %}' class="import_link">Возобновить трансялцию</a></li>
 {#            {% include "admin/import_export/change_list_import_item.html" %}#}
 {#            {% include "admin/import_export/change_list_export_item.html" %}#}
             {{ block.super }}
